@@ -19,7 +19,7 @@ http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/
 
 In our evaluation we use three sets of queries which target the same spatial regions but differ in the sets of graphs they affect.
 
-* `ng-one`: Benchmark queries target a single named graph in the dataset.
+* `ng-one`: Benchmark queries target a single named graph in the dataset. Uses `GRAPH <CONST>`.
 
 <details>
   <summary>Click here to show the query</summary>
@@ -44,7 +44,7 @@ WHERE
 </details>
 
 
-* `ng-all`: Benchmark queries target all named graphs in the dataset: `GRAPH ?g { }`
+* `ng-all`: Benchmark queries target all named graphs in the dataset. Uses `GRAPH ?g`.
 
 <details>
   <summary>Click here to show the query</summary>
@@ -68,7 +68,7 @@ WHERE
 
 </details>
 
-* `ug`: Benchmark queries target the union default graph, i.e. a view over all named graphs
+* `ug`: Benchmark queries target the union default graph, i.e. a view over all named graphs. Does not use `GRAPH`.
 
 <details>
   <summary>Click here to show the query</summary>
