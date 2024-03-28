@@ -21,6 +21,9 @@ In our evaluation we use three sets of queries which target the same spatial reg
 
 * `ng-one`: Benchmark queries target a single named graph in the dataset.
 
+<details>
+  <summary>Click here to show the query</summary>
+
 ```sparql
 PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
 PREFIX  spatial: <http://jena.apache.org/spatial#>
@@ -38,7 +41,13 @@ WHERE
   }
 ```
 
+</details>
+
+
 * `ng-all`: Benchmark queries target all named graphs in the dataset: `GRAPH ?g { }`
+
+<details>
+  <summary>Click here to show the query</summary>
 
 ```sparql
 PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
@@ -57,7 +66,12 @@ WHERE
   }
 ```
 
+</details>
+
 * `ug`: Benchmark queries target the union default graph, i.e. a view over all named graphs
+
+<details>
+  <summary>Click here to show the query</summary>
 
 ```sparql
 PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
@@ -74,6 +88,8 @@ WHERE
     FILTER geof:sfIntersects(?featureGeomWkt, ?queryGeom)
   }
 ```
+
+</details>
 
 ### Download Links
 
