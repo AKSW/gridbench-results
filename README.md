@@ -47,7 +47,7 @@ SELECT (COUNT(*) AS ?c) {
 
 * eval-geoplus-ng-one
 * eval-geoplus-ng-all
-* [http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ug/0.0.1-SNAPSHOT/eval-geoplus-ug-0.0.1-20240328.193113-1.trig](eval-geoplus-ug)
+* [eval-geoplus-ug](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ug/0.0.1-SNAPSHOT/eval-geoplus-ug-0.0.1-20240328.193113-1.trig)
 * eval-vanilla-ng-one
 * eval-vanilla-ng-all
 * eval-vanilla-ug
