@@ -5,6 +5,8 @@ This repository contains an evaluation setup that compares:
 * Jena's default spatial index implementation, referred to as _vanilla_
 * Our improved implementation, referred to as  _geoplus_
 
+The evaluation is uses our simple [GridBench](https://github.com/AKSW/gridbench) benchmark.
+
 ## Result Datasets
 
 We are in the process of finalizing RDF dataset deployment ~ 2024-03-28
