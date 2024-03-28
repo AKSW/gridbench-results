@@ -17,32 +17,62 @@ http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/
 
 ### Query Types
 
-ng-one: Benchmark queries target a single named graph in the dataset.
+In our evaluation we use three sets of queries which target the same spatial regions but differ in the sets of graphs they affect.
+
+* `ng-one`: Benchmark queries target a single named graph in the dataset.
 
 ```sparql
-SELECT (COUNT(*) AS ?c) {
-  GRAPH <CONST> {
-    ...
+PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX  spatial: <http://jena.apache.org/spatial#>
+PREFIX  geof: <http://www.opengis.net/def/function/geosparql/>
+
+SELECT  (count(*) AS ?c)
+WHERE
+  { GRAPH <http://www.example.org/graph/0>
+      { BIND("POLYGON((-90 -90, -90 -78.75, -78.75 -78.75, -78.75 -90, -90 -90))"^^geo:wktLiteral AS ?queryGeom)
+        ?feature  spatial:intersectBoxGeom  ( ?queryGeom ) ;
+                  geo:hasGeometry       ?featureGeom .
+        ?featureGeom  geo:asWKT         ?featureGeomWkt
+        FILTER geof:sfIntersects(?featureGeomWkt, ?queryGeom)
+      }
   }
-}
 ```
 
-ng-all: Benchmark queries target all named graphs in the dataset: `GRAPH ?g { }`
+* `ng-all`: Benchmark queries target all named graphs in the dataset: `GRAPH ?g { }`
 
 ```sparql
-SELECT (COUNT(*) AS ?c) {
-  GRAPH ?g {
-    ...
+PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX  spatial: <http://jena.apache.org/spatial#>
+PREFIX  geof: <http://www.opengis.net/def/function/geosparql/>
+
+SELECT  (count(*) AS ?c)
+WHERE
+  { GRAPH ?g
+      { BIND("POLYGON((-90 -90, -90 -78.75, -78.75 -78.75, -78.75 -90, -90 -90))"^^geo:wktLiteral AS ?queryGeom)
+        ?feature  spatial:intersectBoxGeom  ( ?queryGeom ) ;
+                  geo:hasGeometry       ?featureGeom .
+        ?featureGeom  geo:asWKT         ?featureGeomWkt
+        FILTER geof:sfIntersects(?featureGeomWkt, ?queryGeom)
+      }
   }
-}
 ```
 
-ug: Benchmark queries target the union default graph, i.e. a view over all named graphs
+* `ug`: Benchmark queries target the union default graph, i.e. a view over all named graphs
 
 ```sparql
-SELECT (COUNT(*) AS ?c) {
-  ...
-}
+PREFIX  geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX  spatial: <http://jena.apache.org/spatial#>
+PREFIX  geof: <http://www.opengis.net/def/function/geosparql/>
+
+SELECT  (count(*) AS ?c)
+WHERE
+  { { BIND("POLYGON((-90 -90, -90 -78.75, -78.75 -78.75, -78.75 -90, -90 -90))"^^geo:wktLiteral AS ?queryGeom)
+      ?feature  spatial:intersectBoxGeom  ( ?queryGeom ) ;
+                geo:hasGeometry       ?featureGeom .
+      ?featureGeom  geo:asWKT         ?featureGeomWkt
+    }
+    FILTER geof:sfIntersects(?featureGeomWkt, ?queryGeom)
+  }
 ```
 
 ### Download Links
