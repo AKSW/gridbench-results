@@ -9,7 +9,7 @@ The evaluation is uses our simple [GridBench](https://github.com/AKSW/gridbench)
 
 ## Result Datasets
 
-We are in the process of finalizing RDF dataset deployment ~ 2024-03-28
+We are in the process of finalizing the RDF evaluation dataset generation and deployment pipeline. The links will be updated to final versions in the coming days. ~ 2024-03-28
 
 Alpha deployments of the datasets are deployed under:
 
@@ -47,13 +47,16 @@ SELECT (COUNT(*) AS ?c) {
 
 ### Download Links
 
-* eval-geoplus-ng-one
-* eval-geoplus-ng-all
+* [eval-geoplus-ng-one](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ng-one/0.0.1-SNAPSHOT/eval-geoplus-ng-one-0.0.1-20240328.193113-1.trig)
+* [eval-geoplus-ng-all](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ng-all/0.0.1-SNAPSHOT/eval-geoplus-ng-all-0.0.1-20240328.193113-1.trig)
 * [eval-geoplus-ug](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ug/0.0.1-SNAPSHOT/eval-geoplus-ug-0.0.1-20240328.193113-1.trig)
-* eval-vanilla-ng-one
-* eval-vanilla-ng-all
-* eval-vanilla-ug
+* [eval-vanilla-ng-one](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-vanilla-ng-one/0.0.1-SNAPSHOT/eval-vanilla-ng-one-0.0.1-20240328.193113-1.trig)
+* [eval-vanilla-ng-all](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-vanilla-ng-all/0.0.1-SNAPSHOT/eval-vanilla-ng-all-0.0.1-20240328.193113-1.trig)
+* [eval-vanilla-ug](http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-vanilla-ug/0.0.1-SNAPSHOT/eval-vanilla-ug-0.0.1-20240328.193113-1.trig)
 
+## Visualization
+
+Coming soon. ~ 2024-03-28
 
 ## Reproducing Results
 
