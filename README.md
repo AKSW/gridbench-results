@@ -7,7 +7,51 @@ This repository contains an evaluation setup that compares:
 
 ## Result Datasets
 
-We are finalizing the RDF datasets ~ 2024-03-28
+We are in the process of finalizing RDF dataset deployment ~ 2024-03-28
+
+Alpha deployments of the datasets are deployed under:
+
+http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/
+
+### Query Types
+
+ng-one: Benchmark queries target a single named graph in the dataset.
+
+```sparql
+SELECT (COUNT(*) AS ?c) {
+  GRAPH <CONST> {
+    ...
+  }
+}
+```
+
+ng-all: Benchmark queries target all named graphs in the dataset: `GRAPH ?g { }`
+
+```sparql
+SELECT (COUNT(*) AS ?c) {
+  GRAPH ?g {
+    ...
+  }
+}
+```
+
+ug: Benchmark queries target the union default graph, i.e. a view over all named graphs
+
+```sparql
+SELECT (COUNT(*) AS ?c) {
+  ...
+}
+```
+
+### Download Links
+
+* eval-geoplus-ng-one
+* eval-geoplus-ng-all
+* [http://maven.aksw.org/repository/snapshots/org/aksw/eval/gridbench/jena/eval-geoplus-ug/0.0.1-SNAPSHOT/eval-geoplus-ug-0.0.1-20240328.193113-1.trig](eval-geoplus-ug)
+* eval-vanilla-ng-one
+* eval-vanilla-ng-all
+* eval-vanilla-ug
+
 
 ## Reproducing Results
 
