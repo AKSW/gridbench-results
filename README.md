@@ -104,6 +104,42 @@ WHERE
 
 Coming soon. ~ 2024-03-28
 
+<details>
+
+<summary>Show Query</summary>
+
+```sparql
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX lsq: <http://lsq.aksw.org/vocab#>
+PREFIX agg: <http://jena.apache.org/ARQ/function/aggregate#>
+
+SELECT ?wkt ?wktColor ?wktLabel ?wktTooltip WHERE {
+  { SELECT (AVG(?duration) AS ?durationAvg) (MIN(?duration) AS ?durationMin) (MAX(?duration) AS ?durationMax) (agg:stdev(?duration) AS ?durationStdev) {
+      GRAPH ?query { ?query lsq:hasLocalExec/lsq:hasQueryExec/lsq:evalDuration ?duration }
+  } }
+  GRAPH ?query {
+    ?query
+      geo:hasGeometry/geo:asWKT ?wkt ;
+      lsq:hasLocalExec/lsq:hasQueryExec/lsq:evalDuration ?duration .
+  }
+  # How many sigmas a value differs from the average
+  BIND((ABS(?duration - ?durationAvg) / ?durationStdev) AS ?sigmaCount)
+
+  BIND(?sigmaCount / 3 AS ?normSigmaCount)
+  BIND(IF(?normSigmaCount > 1, 1, ?normSigmaCount) AS ?scale)
+  
+  BIND(CONCAT("rgb(", STR(xsd:int(?scale * 255)), ",0,0)") AS ?wktColor)
+  BIND(STRDT(CONCAT(
+    'Duration: ', STR(?duration), '<br />',
+    'Stdev:', STR(?sigmaCount)
+  ), rdf:HTML) AS ?wktLabel)
+  BIND(?wktLabel AS ?wktTooltip)
+}
+```
+
+</details>
+
 ## Reproducing Results
 
 In an attempt to make the benchmark as reproducible as possible, we packaged it up as an Apache Maven build.
