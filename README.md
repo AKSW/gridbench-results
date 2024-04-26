@@ -109,33 +109,41 @@ Coming soon. ~ 2024-03-28
 <summary>Show Query</summary>
 
 ```sparql
+PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX lsq: <http://lsq.aksw.org/vocab#>
 PREFIX agg: <http://jena.apache.org/ARQ/function/aggregate#>
 
-SELECT ?wkt ?wktColor ?wktLabel ?wktTooltip WHERE {
-  { SELECT (AVG(?duration) AS ?durationAvg) (MIN(?duration) AS ?durationMin) (MAX(?duration) AS ?durationMax) (agg:stdev(?duration) AS ?durationStdev) {
-      GRAPH ?query { ?query lsq:hasLocalExec/lsq:hasQueryExec/lsq:evalDuration ?duration }
-  } }
+SELECT ?time ?value WHERE {
+  { SELECT ?benchmarkRun (AVG(?duration) AS ?durationAvg) (agg:stdev(?duration) AS ?durationStdev) {
+      GRAPH ?query {
+        ?query lsq:hasLocalExec ?localExec .
+        ?localExec
+          lsq:benchmarkRun ?benchmarkRun ;
+          lsq:hasQueryExec/lsq:evalDuration ?duration .
+      }
+  } GROUP BY ?benchmarkRun }
   GRAPH ?query {
     ?query
-      geo:hasGeometry/geo:asWKT ?wkt ;
-      lsq:hasLocalExec/lsq:hasQueryExec/lsq:evalDuration ?duration .
-  }
-  # How many sigmas a value differs from the average
-  BIND((ABS(?duration - ?durationAvg) / ?durationStdev) AS ?sigmaCount)
+      lsq:hasLocalExec ?localExec ;
+      geo:hasGeometry/geo:asWKT ?wkt .
 
-  BIND(?sigmaCount / 3 AS ?normSigmaCount)
-  BIND(IF(?normSigmaCount > 1, 1, ?normSigmaCount) AS ?scale)
-  
-  BIND(CONCAT("rgb(", STR(xsd:int(?scale * 255)), ",0,0)") AS ?wktColor)
-  BIND(STRDT(CONCAT(
-    'Duration: ', STR(?duration), '<br />',
-    'Stdev:', STR(?sigmaCount)
-  ), rdf:HTML) AS ?wktLabel)
-  BIND(?wktLabel AS ?wktTooltip)
+    ?localExec
+      lsq:benchmarkRun ?benchmarkRun ;
+      lsq:hasQueryExec ?queryExec .
+
+    ?queryExec
+      prov:atTime ?time ;
+      lsq:evalDuration ?duration .    
+  }
+  GRAPH ?runGraph { ?benchmarkRun lsq:runId ?runId }
+  FILTER(?runId = 0)
+  # BIND((?duration - ?durationAvg) / ?durationStdev AS ?value) # How many sigmas a value differs from the average
+  # BIND(?duration - ?durationAvg AS ?value)
+  BIND(?duration AS ?value)
 }
+ORDER BY ASC(?time)
 ```
 
 </details>
